@@ -40,9 +40,10 @@ class Stats(Resource):
         sub = request.args.get('suburb')
         sub = sub.lower()
         conn = e.connect()
-        query = "SELECT COUNT(Breed), Breed FROM (SELECT Breed FROM stats WHERE Suburb = \""+sub+"\") GROUP BY Breed"
-        print query
-        breeds = conn.execute(query)
+
+        breeds = conn.execute("SELECT COUNT(Breed), Breed\
+                               FROM (SELECT Breed FROM stats WHERE Suburb = %s)\
+                               GROUP BY Breed" %(sub))
         return {'data': [dict(zip(tuple(breeds.keys()), i)) for i in breeds.cursor]}, {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'}
 
 class ParkStats(Resource):
