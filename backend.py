@@ -8,9 +8,6 @@ e = create_engine('sqlite:///parks.db')
 app = Flask(__name__)
 api = Api(app)
 
-import ssl
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.load_cert_chain('cert.pem', 'privkey.pem')
 
 class Parks(Resource):
     def get(self):
@@ -66,4 +63,4 @@ api.add_resource(ParkStats, '/reviews')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', ssl_context=context)
+    app.run(host='0.0.0.0')
