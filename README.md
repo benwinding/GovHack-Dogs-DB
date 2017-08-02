@@ -1,6 +1,9 @@
 # GovHack-Dogs-DB
 Source repo for the backend of the dogedog backend: [https://dogedog-db.herokuapp.com/dogstats?suburb=adelaide](https://dogedog-db.herokuapp.com/dogstats?suburb=adelaide)
 
+ - [DogeDog Front-End](https://github.com/benwinding/GovHack-Dogs)
+ - [DogeDog Back-End](https://github.com/benwinding/GovHack-Dogs-DB)
+
 # Requirements
  - [x] Get a heroku account
  - [x] Install the [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
