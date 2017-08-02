@@ -8,6 +8,9 @@ e = create_engine('sqlite:///parks.db')
 app = Flask(__name__)
 api = Api(app)
 
+import ssl
+context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+context.load_cert_chain('cert.pem', 'privkey.pem')
 
 class Parks(Resource):
     def get(self):
@@ -40,10 +43,9 @@ class Stats(Resource):
         sub = request.args.get('suburb')
         sub = sub.lower()
         conn = e.connect()
-
-        breeds = conn.execute("SELECT COUNT(Breed), Breed\
-                               FROM (SELECT Breed FROM stats WHERE Suburb = %s)\
-                               GROUP BY Breed" %(sub))
+        query = "SELECT COUNT(Breed), Breed FROM (SELECT Breed FROM stats WHERE Suburb = \""+sub+"\") GROUP BY Breed"
+        print query
+        breeds = conn.execute(query)
         return {'data': [dict(zip(tuple(breeds.keys()), i)) for i in breeds.cursor]}, {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'}
 
 class ParkStats(Resource):
@@ -64,4 +66,4 @@ api.add_resource(ParkStats, '/reviews')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', ssl_context=context)
